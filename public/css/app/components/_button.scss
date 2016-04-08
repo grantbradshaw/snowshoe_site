@@ -1,0 +1,33 @@
+.btn-collapse {
+  cursor: pointer;
+}
+
+.button-group-pulled-right {
+  .btn:first-child {
+    margin-left: .5em;
+  }
+}
+
+.btn-icon-only {
+  border-radius: 4px;
+  border: 1px solid transparent;
+
+  .fa {
+    margin-right: 0;
+  }
+
+  &:hover {
+    background-color: #E74C3C;
+    border: 1px solid #cd2a19;
+    color: #FFF !important;
+  }
+
+}
+
+.btn-group-track .btn {
+  margin-right: .5em;
+}
+
+.btn-danger.btn-link {
+  color: #cd2a19;
+}

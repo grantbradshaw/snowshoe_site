@@ -1,0 +1,70 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= track.name
+    p
+      | Updated #{prettyDate.format(track.updatedAt)}
+      if track.status == 'set' || track.status == 'found'
+        span  | Alert set. You will be notified when an item becomes #{prettyAlertOperator(track.alert.operator)} $#{track.alert.comparator}
+    .btn-group-track
+      if track.status == 'new'
+        button.btn.btn-success(type='button', data-toggle='collapse', data-target='#alertForm')
+          i.fa.fa-bell
+          | New Alert
+      else
+        button.btn.btn-success(type='button', data-toggle='collapse', data-target='#alertForm')
+          i.fa.fa-bell
+          | Edit Alert
+      button.btn.btn-danger.js-delete-track(type='button')
+        i.fa.fa-trash
+        | Delete Track
+
+  #alertForm.collapse.create-alert-form(class=displayAlertForm==true?'in':undefined, data-lowest-price=track.lowestScrapedPrice)
+    .well
+
+      form(method='post' action='/tracks/' + track._id + '/alerts')
+        input(type='hidden', name='_csrf', value=_csrf)
+        input(type='hidden', name='lowestPrice', value=track.lowestScrapedPrice)
+        .row
+          .col-xs-6
+            .form-group
+              label.control-label(for='alertOperator') Notify me when the price becomes
+              select.form-control(id='alertOperator', name='alertOperator')
+                if lessThanSelected
+                  option(value='<', selected) less than
+                  option(value='>') greater than
+                else
+                  option(value='<') less than
+                  option(value='>', selected) greater than
+          .col-xs-6
+            .form-group.form-group-no-label
+              .input-group
+                span.input-group-addon $
+                input.form-control(id='alertComparator', name='alertComparator', placeholder='a number', value=alertComparator)
+              span#comparatorIsRequired.help-block(class='is-hidden') Please enter a price.
+              span#comparatorConditionMet.help-block(class=conditionMet==true?undefined:'is-hidden') Enter a price less than $#{track.lowestScrapedPrice} – the current cheapest item.
+
+        .form-group.clearfix.button-group-pulled-right
+            button.btn.btn-success.pull-right(type='submit') Save
+            button.btn.btn-default.pull-right(type='button', data-toggle='collapse', data-target='#alertForm') Cancel
+
+  table#trackedItems.table.table-track-items.table-hover
+    thead
+      tr
+        th Name
+        th Price
+        th Source
+        th Delete
+    if (track.selections.length)
+      tbody
+        each page in track.pages
+          each scrape in page.scrapes
+            tr(data-item-id=scrape._id, class=scrape.meetsCondition==true?'meets-condition': undefined)
+              td= scrape.name
+              td= scrape.data
+              td
+                a(href=page.url)= page.url
+              td
+                a.btn.btn-danger.btn-link.btn-icon-only.js-delete-item
+                  i.fa.fa-trash

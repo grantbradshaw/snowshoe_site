@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+  .jumbotron
+    h1 Track Prices. Anywhere.
+    p With Snowshoe, tracking prices with our handy extension is a pinch! Select interesting products you find and be told when they are on sale (or expensive, I guess).
+    p
+      a.btn.btn-primary(href='/signup') Sign up now!
+
+  .page-header
+    h3 Features
+  .row
+    .col-xs-6
+      p Select prices directly using our extension
+    .col-xs-6
+      p Customize conditions for tracks
+  .row
+    .col-xs-6
+      p Automatic scraping on a regular schedule
+    .col-xs-6
+      p Get notified when prices fall within your set price range
+  hr
+
+  .page-header
+    h3.text-center Sign up to get started
+  include partials/signup_form

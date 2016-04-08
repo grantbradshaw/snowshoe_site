@@ -1,0 +1,33 @@
+.list-group-tracks-header {
+  border: none;
+  font-weight: 600;
+}
+
+.list-group-tracks-header, .list-group-tracks > a {
+  display: flex;
+
+  > span {
+    width: 20%;
+  }
+
+  > span:nth-child(1) {
+    width: 40%;
+  }
+}
+
+.table-track-items {
+  border-top: 1px solid #DDD;
+}
+
+.table-track-items thead {
+  border-bottom: 1px solid #DDD;
+}
+
+.table-hover > tbody > tr.meets-condition {
+  color: #FFF;
+  background-color: #18BC9C;
+
+  td:nth-child(3) a {
+    color: #FFF;
+  }
+}
