@@ -181,10 +181,9 @@ exports.postUpdatePassword = function(req, res, next) {
  * Delete user account.
  */
 exports.postDeleteAccount = function(req, res, next) {
-  User.remove({ _id: req.user.id }, function(err) {
-    if (err) {
-      return next(err);
-    }
+  User.findOne({ _id: req.user.id }, function(err, user) {
+    if (err) return next(err);
+    user.remove();
     req.logout();
     req.flash('info', { msg: 'Your account has been deleted.' });
     res.redirect('/');

@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto'); // is this deprecated?
 const mongoose = require('mongoose');
+const Track = require('./Track');
+const AgendaJob = require('./AgendaJob');
 
 const userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
@@ -36,6 +38,21 @@ userSchema.pre('save', function(next){
     });
   });
 }); 
+
+// removes associated tracks to user on deleting account
+userSchema.post('remove', function(user) {
+  Track.find({_id: {$in: user.trackIds}}, function(err, tracks){
+    if (err) console.error(err);
+    tracks.forEach(function(track){
+      var jobName = 'scrape ' + track.id;
+      AgendaJob.findOne({ name: jobName }, function(err, job){
+        if (err) console.error(job);
+        if (job) job.remove();
+      });
+    });
+    Track.remove({_id: {$in: user.trackIds}}).exec();
+  });
+});
 
 // helper for validating passwords
 userSchema.methods.comparePassword = function(candidatePassword, cb){

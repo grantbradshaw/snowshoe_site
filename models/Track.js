@@ -72,7 +72,7 @@ trackSchema.pre('save', function(next) {
 trackSchema.post('remove', function(track) {
   User.findOne({ _id: track._userId }, function(err, user) {
     var jobName = 'scrape ' + track.id;
-
+    
     user.trackIds.pull(track.id);
     user.save();
 

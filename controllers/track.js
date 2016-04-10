@@ -141,6 +141,7 @@ exports.postTrack = function(req, res, next) {
 
 exports.deleteTrack = function(req, res) {
   Track.findOne({ _id: req.params.id }, function(err, track) {
+    // error handling
     track.remove();
     res.send({ redirect: '/tracks' });
   });
