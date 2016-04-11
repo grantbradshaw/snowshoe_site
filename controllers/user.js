@@ -64,7 +64,8 @@ exports.postSignup = function(req, res, next) {
   req.assert('firstName', 'First name can\'t be empty').notEmpty();
   req.assert('lastName', 'Last name can\'t be empty').notEmpty();
   req.assert('email', 'Email is not valid').isEmail();
-  req.assert('password', 'Password must be at least 6 characters long').len(6);
+  req.assert('password', 'Password must be at least 8 characters long').len(8);
+  req.assert('password', 'Password must have an upper and lower case letter, number, and symbol').matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
   var errors = req.validationErrors();
@@ -151,7 +152,8 @@ exports.postUpdateProfile = function(req, res, next) {
  * Update current password.
  */
 exports.postUpdatePassword = function(req, res, next) {
-  req.assert('password', 'Password must be at least 4 characters long').len(4);
+  req.assert('password', 'Password must be at least 8 characters long').len(8);
+  req.assert('password', 'Password must have an upper and lower case letter, number, and symbol').matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
   var errors = req.validationErrors();
@@ -240,7 +242,8 @@ exports.getReset = function(req, res) {
  * Process the reset password request.
  */
 exports.postReset = function(req, res, next) {
-  req.assert('password', 'Password must be at least 4 characters long.').len(4);
+  req.assert('password', 'Password must be at least 8 characters long.').len(8);
+  req.assert('password', 'Password must have an upper and lower case letter, number, and symbol').matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
   req.assert('confirm', 'Passwords must match.').equals(req.body.password);
 
   var errors = req.validationErrors();

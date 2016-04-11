@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 var alertSchema = new mongoose.Schema({
   operator: { type: String, default: '<' },
-  comparator: Number,
+  comparator: { type: Number, required: true },
   message: String,
   conditionMet: { type: Boolean, default: false }
 });

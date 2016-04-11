@@ -1,14 +1,30 @@
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto'); // is this deprecated?
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true, lowercase: true },
-  password: String,
-  tokens: Array, // is this necessary?
+  email: { 
+          type: String, 
+          unique: true, 
+          lowercase: true,
+          required: true,
+          validate: {
+            validator: function(e){
+              return validator.isEmail(e)
+            },
+            message: 'Not a valid email'
+          }},
+  password: { 
+              type: String, 
+              required: true, 
+              minlength: 6,
+              match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+             },
+  tokens: Array,
   profile: {
-    firstName: String,
-    lastName: String,
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     picture: { type: String, default: '' }
   },
   resetPasswordToken: String,
