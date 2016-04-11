@@ -5,27 +5,32 @@ const mongoose = require('mongoose');
 
 var alertSchema = new mongoose.Schema({
   operator: { type: String, default: '<' },
-  comparator: { type: Number, required: true },
+  comparator: Number,
   message: String,
   conditionMet: { type: Boolean, default: false }
 });
 
 var scrapeSchema = new mongoose.Schema({
   name: String,
-  selector: String,
-  data: Number,
-  meetsCondition: Boolean
+  selector: {type: String, required: true },
+  data: { type: Number, required: true },
+  meetsCondition: {type: Boolean, default: false, required: false }
 });
 
 var pageSchema = new mongoose.Schema({
-  url: String,
+  url: { type: String, required: true },
   scrapes: [scrapeSchema]
 });
 
 var trackSchema = new mongoose.Schema({
-  _userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  name: String,
-  status: { type: String, default: 'new' },
+  _userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  name:  { type: String, required: true },
+  status: { 
+            type: String, 
+            default: 'new',
+            enum: ['new', 'set', 'found'],
+            required: true
+          },
   pages: [pageSchema],
   alert: alertSchema
 }, { timestamps: true });

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var agendaJobSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   lockedAt: Date // Required in order to unlock jobs
 });
 
