@@ -34,12 +34,10 @@ $(document).ready(function() {
     var form = $('#alertForm');
     var alertComparator = form.find('#alertComparator');
     var lowestPrice = form.data('lowest-price');
-    var hasError = false;
-    
-    // validate only numbers in the comparator input
+    var hasError = false;  
 
-    // Validate alert comparator presence.
-    if (!alertComparator.val()) {
+    // Validate alert comparator presence. Inequality validates entry !isNaN
+    if (!alertComparator.val() || Number(alertComparator.val()) != Number(alertComparator.val())) {
       alertComparator.closest('.form-group').addClass('has-error');
       $('#comparatorIsRequired').removeClass('is-hidden');
       hasError = true;
