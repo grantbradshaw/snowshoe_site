@@ -42,11 +42,11 @@ exports.postAlert = function(req, res, next) {
       conditionMet: track.alert.conditionMet // Required, otherwise it will revert to default value.
     }
 
-    // Create scrape job
+    // Create scrape job 
     console.log('Create scrape job');
     var jobName = 'scrape ' + track._id;
     scrape(agenda, jobName);
-    agenda.every('10 minutes', jobName, { trackId: track._id });
+    agenda.every('30 seconds', jobName, { trackId: track._id });
 
     // Update track status.
     track.status = 'set';

@@ -91,7 +91,7 @@ exports.postTrack = function(req, res, next) {
 
   var track = new Track({
     _userId: req.user.id,
-    name: name,
+    name: name.toString(),
     alert: {},
     pages: []
   });
@@ -110,7 +110,7 @@ exports.postTrack = function(req, res, next) {
 
     scrapes.forEach(function(scrape) {
       page.scrapes.push({
-        name: scrape.name,
+        name: scrape.name.toString(),
         selector: scrape.path,
         data: cleanNumberData(scrape.content)
       });
