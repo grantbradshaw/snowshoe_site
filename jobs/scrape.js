@@ -1,10 +1,10 @@
 const Scrape = require('../models/Scrape');
 const User = require('../models/User');
-const scrapePages = require('../helpers/scrape_pages');
+const scrapePage = require('../helpers/scrape_pages');
 
 module.exports = function(agenda, jobName) {
   agenda.define(jobName, function(job, done) {
-    Scrape.findOne({ '_id': job.attrs.data.scrapeId }, function(err, track) {
+    Scrape.findOne({ '_id': job.attrs.data.scrapeId }, function(err, scrape) {
 
       scrapePage(scrape, function(scrape, price) {
         scrape.data = price;

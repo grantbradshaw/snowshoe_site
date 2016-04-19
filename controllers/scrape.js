@@ -4,6 +4,10 @@ const prettyDate = require('pretty-date');
 const scrapePages = require('../helpers/scrape_pages');
 const prettyAlertOperator = require('../helpers/pretty_alert_operator');
 const cleanNumberData = require('../helpers/clean_number_data');
+const job_scrape = require('../jobs/scrape');
+const agenda = require('../config/agenda');
+const conditionMetNotification = require('../mailer/condition_met_notification');
+
 
 function prettyTrackStatus(track) {
   var status;
@@ -92,7 +96,7 @@ exports.postScrape = function(req, res, next) {
     url: req.body.url,
     selector: req.body.selector.path,
     data: cleanNumberData(req.body.selector.content),
-    alert: {}
+    alert: {comparator: Number(req.body.selector.comparator)}
   });
 
   // Add pages to track.
@@ -116,6 +120,13 @@ exports.postScrape = function(req, res, next) {
   //   });
   // });
 
+  console.log('Creating scrape job');
+  var jobName = 'scrape ' + scrape._id;
+  job_scrape(agenda, jobName);
+  agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
+
+  scrape.status = 'set';
+
   // Save initial track data and respond with link.
   scrape.save(function(err) {
     if (err) return console.error(err);
@@ -124,17 +135,22 @@ exports.postScrape = function(req, res, next) {
     console.log(scrape);
     console.log('Scrape ' + scrape.id + ' saved');
     console.log('-----------');
-    res.send({ trackURL: 'http://localhost:3000/tracks/' + scrape.id });
+    //res.send({ trackURL: 'http://localhost:3000/tracks/' + scrape.id });
+  }).then(function(){
+    if (scrape.alert && scrape.alert.conditionMet) {
+      console.log('Condition is met. Sending email...');
+      conditionMetNotification(req, scrape); // check if this works w/ post to User
+    }
   });
 
-  scrapePages(scrape, function(track) {
-    scrape.save(function(err) {
-      if (err) return console.error(err);
+  // scrapePages(scrape, function(track) {
+  //   scrape.save(function(err) {
+  //     if (err) return console.error(err);
 
-      console.log('Scrape ' + scrape.id + ' scraped from backend.');
-      console.log('-----------');
-    });
-  });
+  //     console.log('Scrape ' + scrape.id + ' scraped from backend.');
+  //     console.log('-----------');
+  //   });
+  // });
 
 }
 

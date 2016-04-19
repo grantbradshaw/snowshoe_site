@@ -9,9 +9,11 @@ block content
       span Name
       span Status
       span Added
+      span Target Price
     .list-group.list-group-tracks
       each scrape in scrapes
-        a.list-group-item(href='/tracks/' + scrape._id)
+        a.list-group-item
           span= scrape.name
           span= prettyTrackStatus(scrape)
           span= prettyDate.format(scrape.createdAt)
+          span= scrape.alert.comparator

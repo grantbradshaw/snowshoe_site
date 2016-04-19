@@ -15,7 +15,7 @@ var scrapePage = function(scrape, callback) {
   driver.get(scrape.url);
 
   var sleepPeriod = 4000
-  console.log('Browser will wait', sleepPeriod, 'for page', sleepPeriod);
+  console.log('Browser will wait', sleepPeriod);
 
   // Driver waits the sleep period before getting the page source
   // Required for pages that make heavy use of JS
