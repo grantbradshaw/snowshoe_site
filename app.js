@@ -25,7 +25,7 @@ dotenv.load();
 // controllers
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
-const trackController = require('./controllers/track');
+const scrapeController = require('./controllers/scrape');
 const alertController = require('./controllers/alert');
 const selectionController = require('./controllers/selection');
 
@@ -98,11 +98,11 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
-app.get('/tracks', passportConf.isAuthenticated, trackController.getTracks);
-app.get('/tracks/:id', passportConf.isAuthenticated, trackController.getTrack);
-app.post('/tracks', passportConf.isAuthenticated, trackController.postTrack);
-app.post('/tracks/:id', passportConf.isAuthenticated, trackController.postTrack);
-app.delete('/tracks/:id', passportConf.isAuthenticated, trackController.deleteTrack);
+app.get('/tracks', passportConf.isAuthenticated, scrapeController.getScrapes);
+app.get('/tracks/:id', passportConf.isAuthenticated, scrapeController.getScrape);
+app.post('/tracks', passportConf.isAuthenticated, scrapeController.postScrape);
+app.post('/tracks/:id', passportConf.isAuthenticated, scrapeController.postScrape);
+app.delete('/tracks/:id', passportConf.isAuthenticated, scrapeController.deleteTrack);
 app.post('/tracks/:id/alerts', passportConf.isAuthenticated, alertController.postAlert);
 app.post('/tracks/:trackId/selections/:selectionId/delete', passportConf.isAuthenticated, selectionController.deleteSelection);
 app.get('/account', passportConf.isAuthenticated, userController.getAccount);

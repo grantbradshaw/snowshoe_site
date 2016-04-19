@@ -1,4 +1,4 @@
-const Track = require('../models/Track');
+const Scrape = require('../models/Scrape');
 
 exports.deleteSelection = function(req, res, next) {
   Track.findOne({ _id: req.params.trackId }, function(err, track) {

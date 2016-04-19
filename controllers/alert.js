@@ -1,4 +1,4 @@
-const Track = require('../models/Track');
+const Scrape = require('../models/Scrape');
 const conditionMetNotification = require('../mailer/condition_met_notification');
 const prettyDate = require('pretty-date');
 const agenda = require('../config/agenda');
@@ -13,7 +13,7 @@ exports.postAlert = function(req, res, next) {
 
   var validationErrors = req.validationErrors();
 
-  Track.findOne({ '_id': req.params.id}, function(err, track) {
+  Scrape.findOne({ '_id': req.params.id}, function(err, track) {
     if (err) return console.error(err);
 
     if (validationErrors) {
@@ -36,7 +36,7 @@ exports.postAlert = function(req, res, next) {
     }
 
     // Upsert valid track alert.
-    track.alert = {
+    scrape.alert = {
       operator: req.body.alertOperator,
       comparator: Number(req.body.alertComparator),
       conditionMet: track.alert.conditionMet // Required, otherwise it will revert to default value.
@@ -44,22 +44,22 @@ exports.postAlert = function(req, res, next) {
 
     // Create scrape job 
     console.log('Create scrape job');
-    var jobName = 'scrape ' + track._id;
+    var jobName = 'scrape ' + scrape._id;
     scrape(agenda, jobName);
-    agenda.every('30 seconds', jobName, { trackId: track._id });
+    agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
 
     // Update track status.
-    track.status = 'set';
+    scrape.status = 'set';
 
-    track.save(function (err) {
+    scrape.save(function (err) {
       if (err) return console.error(err);
       console.log('Saved alert to track');
     }).then(function () {
       // Check if alert condition is met.
       // If met, send notification email to user.
-      if (track.alert && track.alert.conditionMet) {
+      if (scrape.alert && scrape.alert.conditionMet) {
         console.log('Condition is met. Sending email...'); // may be superfluous 
-        conditionMetNotification(req, track);
+        conditionMetNotification(req, scrape);
       }
     });
 

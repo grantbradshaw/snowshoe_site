@@ -11,11 +11,11 @@ var notifyUser = function(track) {
   });
 }
 
-var scrapePage = function(pageCount, page, callback) {
-  driver.get(page.url);
+var scrapePage = function(scrape, callback) {
+  driver.get(scrape.url);
 
-  var sleepPeriod = 4000 * (pageCount);
-  console.log('Browser will wait', sleepPeriod, 'for page', pageCount);
+  var sleepPeriod = 4000
+  console.log('Browser will wait', sleepPeriod, 'for page', sleepPeriod);
 
   // Driver waits the sleep period before getting the page source
   // Required for pages that make heavy use of JS
@@ -25,45 +25,46 @@ var scrapePage = function(pageCount, page, callback) {
       console.log('Got page source. Scraping it now.');
       var $ = cheerio.load(body);
 
-      var prices = {};
-      page.scrapes.forEach(function(scrape) {
-        prices[scrape.id] = $(scrape.selector).text();
-      });
+      // var prices = {};
+      // page.scrapes.forEach(function(scrape) {
+      //   prices[scrape.id] = $(scrape.selector).text();
+      // });
+      var price = cleanNumberData($(scrape.selector).text());
 
-      callback(page, prices, pageCount);
+      callback(scrape, price);
     });
   });
 }
 
-var scrapePages = function(track, callback) {
-  var pageCount = 0; // look at async module for asynchronous foreach instead of using pageCount
+// var scrapePages = function(track, callback) {
+//   var pageCount = 0; // look at async module for asynchronous foreach instead of using pageCount
 
-  track.pages.forEach(function(page) {
-    pageCount++;
+//   track.pages.forEach(function(page) {
+//     pageCount++;
 
-    scrapePage(pageCount, page, function(page, prices, pageCount) {
-      console.log('callback running, updated data:', prices);
+//     scrapePage(pageCount, page, function(page, prices, pageCount) {
+//       console.log('callback running, updated data:', prices);
 
-      page.scrapes.forEach(function(scrape) {
-        page.scrapes.id(scrape.id).data = cleanNumberData(prices[scrape.id]);
-      });
+//       page.scrapes.forEach(function(scrape) {
+//         page.scrapes.id(scrape.id).data = cleanNumberData(prices[scrape.id]);
+//       });
 
-      if (pageCount == track.pages.length) {
-        // Track instance needs to be saved in order to update track.alert.conditionMet.
-        track.save(function(err) {
-          if (err) return console.error(err);
+//       if (pageCount == track.pages.length) {
+//         // Track instance needs to be saved in order to update track.alert.conditionMet.
+//         track.save(function(err) {
+//           if (err) return console.error(err);
 
-          // Check to see if condition is met. If so, send notification email.
-          if (track.alert.conditionMet && track.status == 'set') {
-            notifyUser(track);
-            track.status = 'found';
-          }
+//           // Check to see if condition is met. If so, send notification email.
+//           if (track.alert.conditionMet && track.status == 'set') {
+//             notifyUser(track);
+//             track.status = 'found';
+//           }
 
-          callback(track);
-        });
-      }
-    });
-  });
-}
+//           callback(track);
+//         });
+//       }
+//     });
+//   });
+// }
 
-module.exports = scrapePages;
+module.exports = scrapePage;

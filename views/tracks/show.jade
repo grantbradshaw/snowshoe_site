@@ -2,13 +2,13 @@ extends ../layout
 
 block content
   .page-header
-    h1= track.name
+    h1= scrape.name
     p
       | Updated #{prettyDate.format(track.updatedAt)}
-      if track.status == 'set' || track.status == 'found'
-        span  | Alert set. You will be notified when an item becomes #{prettyAlertOperator(track.alert.operator)} $#{track.alert.comparator}
+      if scrape.status == 'set' || scrape.status == 'found'
+        span  | Alert set. You will be notified when an item becomes #{prettyAlertOperator(scrape.alert.operator)} $#{scrape.alert.comparator}
     .btn-group-track
-      if track.status == 'new'
+      if scrape.status == 'new'
         button.btn.btn-success(type='button', data-toggle='collapse', data-target='#alertForm')
           i.fa.fa-bell
           | New Alert
@@ -20,12 +20,12 @@ block content
         i.fa.fa-trash
         | Delete Track
 
-  #alertForm.collapse.create-alert-form(class=displayAlertForm==true?'in':undefined, data-lowest-price=track.lowestScrapedPrice)
+  #alertForm.collapse.create-alert-form(class=displayAlertForm==true?'in':undefined, data-lowest-price=scrape.lowestScrapedPrice)
     .well
 
-      form(method='post' action='/tracks/' + track._id + '/alerts')
+      form(method='post' action='/tracks/' + scrape._id + '/alerts')
         input(type='hidden', name='_csrf', value=_csrf)
-        input(type='hidden', name='lowestPrice', value=track.lowestScrapedPrice)
+        input(type='hidden', name='lowestPrice', value=scrape.lowestScrapedPrice)
         .row
           .col-xs-6
             .form-group
