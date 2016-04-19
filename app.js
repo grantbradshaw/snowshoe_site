@@ -20,7 +20,7 @@ const cors = require('cors');
 const lusca = require('lusca');
 
 // load the environment variables
-dotenv.load();
+// dotenv.load(); -> no need for deployment
 
 // controllers
 const homeController = require('./controllers/home');
