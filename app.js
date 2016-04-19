@@ -36,7 +36,7 @@ const passportConf = require('./config/passport');
 const app = express();
 
 // connect to MongoDB
-mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI || process.env.MONGODB_URI); // added last handler for heroku setup
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
