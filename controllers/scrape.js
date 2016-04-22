@@ -29,7 +29,7 @@ function prettyTrackStatus(track) {
 
 function addScrapeToUser(id, scrape) {
   User.update({ _id: id },
-  { $push: { scrapeIds: scrape.id }},
+  { $push: { trackIds: scrape.id }},
   function(err, user) {
     if (err) {
       return console.error(err);

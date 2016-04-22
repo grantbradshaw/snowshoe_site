@@ -55,16 +55,16 @@ userSchema.pre('save', function(next){
 
 // removes associated tracks to user on deleting account
 userSchema.post('remove', function(user) {
-  mongoose.model('Track').find({_id: {$in: user.trackIds}}, function(err, tracks){
+  mongoose.model('Scrape').find({_id: {$in: user.trackIds}}, function(err, scrapes){
     if (err) console.error(err);
-    tracks.forEach(function(track){
-      var jobName = 'scrape ' + track.id;
+    scrapes.forEach(function(scrape){
+      var jobName = 'scrape ' + scrape.id;
       mongoose.model('AgendaJob').findOne({ name: jobName }, function(err, job){
         if (err) console.error(job);
         if (job) job.remove();
       });
     });
-    mongoose.model('Track').remove({_id: {$in: user.trackIds}}).exec();
+    mongoose.model('Scrape').remove({_id: {$in: user.trackIds}}).exec();
   });
 });
 

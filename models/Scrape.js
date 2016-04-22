@@ -83,11 +83,11 @@ scrapeSchema.pre('save', function(next) {
 /**
  * Remove track id from user document.
  */
-trackSchema.post('remove', function(track) {
-  User.findOne({ _id: track._userId }, function(err, user) {
-    var jobName = 'scrape ' + track.id;
+scrapeSchema.post('remove', function(scrape) {
+  User.findOne({ _id: scrape._userId }, function(err, user) {
+    var jobName = 'scrape ' + scrape.id;
     
-    user.trackIds.pull(track.id);
+    user.trackIds.pull(scrape.id);
     user.save();
 
     // Remove related scrape job if it exists.
