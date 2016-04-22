@@ -135,7 +135,7 @@ exports.postScrape = function(req, res, next) {
     console.log(scrape);
     console.log('Scrape ' + scrape.id + ' saved');
     console.log('-----------');
-    //res.send({ trackURL: 'http://localhost:3000/tracks/' + scrape.id });
+    res.send({ success: true });
   }).then(function(){
     if (scrape.alert && scrape.alert.conditionMet) {
       console.log('Condition is met. Sending email...');
