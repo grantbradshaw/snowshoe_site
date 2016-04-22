@@ -4,7 +4,7 @@ var scrape = require('../jobs/scrape')
 
 var agenda = new Agenda();
 agenda
-  .database(process.env.MONGODB) // changed from MONGODB to facilitate heroku
+  .database(process.env.MONGODB || process.env.MONGODB_URI) // changed from MONGODB to facilitate heroku
   .processEvery('10 minutes');
 
 // Unlocks running/grabbed jobs which were abandoned
