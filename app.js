@@ -20,7 +20,7 @@ const cors = require('cors');
 const lusca = require('lusca');
 
 // load the environment variables
-//dotenv.load();
+dotenv.load();
 
 // controllers
 const homeController = require('./controllers/home');
