@@ -2,7 +2,6 @@ const Scrape = require('../models/Scrape');
 const User = require('../models/User');
 const prettyDate = require('pretty-date');
 const scrapePages = require('../helpers/scrape_pages');
-const prettyAlertOperator = require('../helpers/pretty_alert_operator');
 const cleanNumberData = require('../helpers/clean_number_data');
 const job_scrape = require('../jobs/scrape');
 const agenda = require('../config/agenda');
@@ -99,27 +98,6 @@ exports.postScrape = function(req, res, next) {
     alert: {comparator: Number(req.body.selector.comparator)}
   });
 
-  // Add pages to track.
-  // for (pageURL in pages) {
-  //   track.pages.push({
-  //     url: pageURL,
-  //     scrapes: []
-  //   });
-  // }
-
-  // Add selection name and selector to each page.
-  // track.pages.forEach(function(page) {
-  //   var scrapes = pages[page.url];
-
-  //   scrapes.forEach(function(scrape) {
-  //     page.scrapes.push({
-  //       name: scrape.name.toString(),
-  //       selector: scrape.path,
-  //       data: cleanNumberData(scrape.content)
-  //     });
-  //   });
-  // });
-
   console.log('Creating scrape job');
   var jobName = 'scrape ' + scrape._id;
   job_scrape(agenda, jobName);
@@ -142,16 +120,6 @@ exports.postScrape = function(req, res, next) {
       conditionMetNotification(req, scrape); // check if this works w/ post to User
     }
   });
-
-  // scrapePages(scrape, function(track) {
-  //   scrape.save(function(err) {
-  //     if (err) return console.error(err);
-
-  //     console.log('Scrape ' + scrape.id + ' scraped from backend.');
-  //     console.log('-----------');
-  //   });
-  // });
-
 }
 
 exports.deleteScrape = function(req, res) {

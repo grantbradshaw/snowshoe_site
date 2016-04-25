@@ -3,7 +3,6 @@ const conditionMetNotification = require('../mailer/condition_met_notification')
 const prettyDate = require('pretty-date');
 const agenda = require('../config/agenda');
 const scrape = require('../jobs/scrape');
-const prettyAlertOperator = require('../helpers/pretty_alert_operator');
 
 exports.postAlert = function(req, res, next) {
   req.assert('alertOperator', 'Alert operator can\'t be empty').notEmpty();
