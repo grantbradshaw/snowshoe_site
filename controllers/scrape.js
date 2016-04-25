@@ -6,6 +6,7 @@ const cleanNumberData = require('../helpers/clean_number_data');
 const job_scrape = require('../jobs/scrape');
 const agenda = require('../config/agenda');
 const conditionMetNotification = require('../mailer/condition_met_notification');
+const shorten = require('../helpers/shorten');
 
 
 function prettyTrackStatus(track) {
@@ -42,7 +43,8 @@ exports.getScrapes = function(req, res) {
       title: 'My scrapes',
       scrapes: scrapes,
       prettyTrackStatus: prettyTrackStatus,
-      prettyDate: prettyDate
+      prettyDate: prettyDate,
+      shorten: shorten
     });
   });
 }

@@ -3,14 +3,14 @@
   font-weight: 600;
 }
 
-.list-group-tracks-header, .list-group-tracks > a {
+.list-group-tracks-header, .list-group-tracks > span {
   display: flex;
 
   > span {
     width: 20%;
   }
 
-  > span:nth-child(1) {
+  > a:nth-child(1), span:nth-child(1) {
     width: 40%;
   }
 }

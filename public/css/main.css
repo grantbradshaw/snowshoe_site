@@ -9019,11 +9019,11 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
   border: none;
   font-weight: 600; }
 
-.list-group-tracks-header, .list-group-tracks > a {
+.list-group-tracks-header, .list-group-tracks > span {
   display: flex; }
-  .list-group-tracks-header > span, .list-group-tracks > a > span {
+  .list-group-tracks-header > span, .list-group-tracks > span > span {
     width: 20%; }
-  .list-group-tracks-header > span:nth-child(1), .list-group-tracks > a > span:nth-child(1) {
+  .list-group-tracks-header > a:nth-child(1), .list-group-tracks-header span:nth-child(1), .list-group-tracks > span > a:nth-child(1), .list-group-tracks > span span:nth-child(1) {
     width: 40%; }
 
 .table-track-items {

@@ -12,8 +12,8 @@ block content
       span Target Price
     .list-group.list-group-tracks
       each scrape in scrapes
-        a.list-group-item
-          span= scrape.name
+        span.list-group-item
+          a(href=scrape.url)= shorten(scrape.name, 50)
           span= prettyTrackStatus(scrape)
           span= prettyDate.format(scrape.createdAt)
           span= scrape.alert.comparator
