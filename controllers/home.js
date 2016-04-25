@@ -2,7 +2,7 @@
 
 exports.index = function(req, res){
   if (req.user){
-    return res.redirect('/tracks');
+    return res.redirect('/scrapes');
   }
   res.render('home', {
     title: 'Home',

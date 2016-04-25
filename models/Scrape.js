@@ -26,23 +26,23 @@ var scrapeSchema = new mongoose.Schema({
   meetsCondition: {type: Boolean, default: false, required: false }
 }, { timestamps: true });
 
-var pageSchema = new mongoose.Schema({
-  url: { type: String, required: true },
-  scrapes: [scrapeSchema]
-});
+// var pageSchema = new mongoose.Schema({
+//   url: { type: String, required: true },
+//   scrapes: [scrapeSchema]
+// });
 
-var trackSchema = new mongoose.Schema({
-  _userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  name:  { type: String, required: true },
-  status: { 
-            type: String, 
-            default: 'new',
-            enum: ['new', 'set', 'found'],
-            required: true
-          },
-  pages: [pageSchema],
-  alert: alertSchema
-}, { timestamps: true });
+// var trackSchema = new mongoose.Schema({
+//   _userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+//   name:  { type: String, required: true },
+//   status: { 
+//             type: String, 
+//             default: 'new',
+//             enum: ['new', 'set', 'found'],
+//             required: true
+//           },
+//   pages: [pageSchema],
+//   alert: alertSchema
+// }, { timestamps: true });
 
 /**
  * Track alert middleware to check if condition is met.
@@ -87,7 +87,7 @@ scrapeSchema.post('remove', function(scrape) {
   User.findOne({ _id: scrape._userId }, function(err, user) {
     var jobName = 'scrape ' + scrape.id;
     
-    user.trackIds.pull(scrape.id);
+    user.scrapeIds.pull(scrape.id);
     user.save();
 
     // Remove related scrape job if it exists.

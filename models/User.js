@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
-  trackIds: { type: Array, index: true }
+  scrapeIds: { type: Array, index: true }
 }, { timestamps: true });
 
 
@@ -53,9 +53,9 @@ userSchema.pre('save', function(next){
   });
 }); 
 
-// removes associated tracks to user on deleting account
+// removes associated scrapes to user on deleting account
 userSchema.post('remove', function(user) {
-  mongoose.model('Scrape').find({_id: {$in: user.trackIds}}, function(err, scrapes){
+  mongoose.model('Scrape').find({_id: {$in: user.scrapeIds}}, function(err, scrapes){
     if (err) console.error(err);
     scrapes.forEach(function(scrape){
       var jobName = 'scrape ' + scrape.id;
@@ -64,7 +64,7 @@ userSchema.post('remove', function(user) {
         if (job) job.remove();
       });
     });
-    mongoose.model('Scrape').remove({_id: {$in: user.trackIds}}).exec();
+    mongoose.model('Scrape').remove({_id: {$in: user.scrapeIds}}).exec();
   });
 });
 

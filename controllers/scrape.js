@@ -29,7 +29,7 @@ function prettyTrackStatus(track) {
 
 function addScrapeToUser(id, scrape) {
   User.update({ _id: id },
-  { $push: { trackIds: scrape.id }},
+  { $push: { scrapeIds: scrape.id }},
   function(err, user) {
     if (err) {
       return console.error(err);
@@ -39,8 +39,8 @@ function addScrapeToUser(id, scrape) {
 
 exports.getScrapes = function(req, res) {
   Scrape.find({_userId: req.user.id}, function(err, scrapes) {
-    res.render('tracks', {
-      title: 'My tracks',
+    res.render('scrapes', {
+      title: 'My scrapes',
       scrapes: scrapes,
       prettyTrackStatus: prettyTrackStatus,
       prettyDate: prettyDate
@@ -48,41 +48,41 @@ exports.getScrapes = function(req, res) {
   });
 }
 
-exports.getScrape = function(req, res) {
-  Scrape.findOne({ '_id': req.params.id }, function(err, scrape) {
-    var alertOperator;
-    var alertComparator;
-    var alertMessage;
-    var lessThanSelected = true;
-    var notOwnedByCurrentUser = req.user.scrapeIds.indexOf(req.params.id) === -1;
+// exports.getScrape = function(req, res) {
+//   Scrape.findOne({ '_id': req.params.id }, function(err, scrape) {
+//     var alertOperator;
+//     var alertComparator;
+//     var alertMessage;
+//     var lessThanSelected = true;
+//     var notOwnedByCurrentUser = req.user.scrapeIds.indexOf(req.params.id) === -1;
 
-    if (err || notOwnedByCurrentUser) {
-      res.status(404).send('Page not found.');
-      return console.error(err);
-    }
+//     if (err || notOwnedByCurrentUser) {
+//       res.status(404).send('Page not found.');
+//       return console.error(err);
+//     }
 
-    // Set alert values if they exist
-    if (scrape.alert) {
-      alertOperator = scrape.alert.operator || '<';
-      alertComparator = scrape.alert.comparator || '';
-      alertMessage = scrape.alert.message || '';
-    }
+//     // Set alert values if they exist
+//     if (scrape.alert) {
+//       alertOperator = scrape.alert.operator || '<';
+//       alertComparator = scrape.alert.comparator || '';
+//       alertMessage = scrape.alert.message || '';
+//     }
 
-    // Set the selected operator dropdown
-    if (alertOperator && alertOperator == '>') {
-      lessThanSelected = false;
-    }
+//     // Set the selected operator dropdown
+//     if (alertOperator && alertOperator == '>') {
+//       lessThanSelected = false;
+//     }
 
-    res.render('tracks/show', {
-      scrape: scrape,
-      lessThanSelected: lessThanSelected,
-      alertComparator: alertComparator,
-      alertMessage: alertMessage,
-      prettyDate: prettyDate,
-      prettyAlertOperator: prettyAlertOperator
-    });
-  });
-}
+//     res.render('tracks/show', {
+//       scrape: scrape,
+//       lessThanSelected: lessThanSelected,
+//       alertComparator: alertComparator,
+//       alertMessage: alertMessage,
+//       prettyDate: prettyDate,
+//       prettyAlertOperator: prettyAlertOperator
+//     });
+//   });
+// }
 
 exports.postScrape = function(req, res, next) {
   // var name = req.body['trackName'];
@@ -154,10 +154,10 @@ exports.postScrape = function(req, res, next) {
 
 }
 
-exports.deleteTrack = function(req, res) {
+exports.deleteScrape = function(req, res) {
   Track.findOne({ _id: req.params.id }, function(err, track) {
     // error handling
     track.remove();
-    res.send({ redirect: '/tracks' });
+    res.send({ redirect: '/scrapes' });
   });
 }
