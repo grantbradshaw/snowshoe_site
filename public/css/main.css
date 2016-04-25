@@ -8807,7 +8807,7 @@ button.close {
 
 table a:not(.btn),
 .table a:not(.btn) {
-  text-decoration: underline; }
+  text-decoration: none; }
 
 table .dropdown-menu a,
 .table .dropdown-menu a {
@@ -9019,11 +9019,11 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
   border: none;
   font-weight: 600; }
 
-.list-group-tracks-header, .list-group-tracks > span {
+.list-group-tracks-header > thead > tr, .list-group-tracks > tbody > tr {
   display: flex; }
-  .list-group-tracks-header > span, .list-group-tracks > span > span {
+  .list-group-tracks-header > thead > tr > th, .list-group-tracks-header > thead > tr td, .list-group-tracks > tbody > tr > th, .list-group-tracks > tbody > tr td {
     width: 20%; }
-  .list-group-tracks-header > a:nth-child(1), .list-group-tracks-header span:nth-child(1), .list-group-tracks > span > a:nth-child(1), .list-group-tracks > span span:nth-child(1) {
+  .list-group-tracks-header > thead > tr > th:nth-child(1), .list-group-tracks-header > thead > tr td:nth-child(1), .list-group-tracks > tbody > tr > th:nth-child(1), .list-group-tracks > tbody > tr td:nth-child(1) {
     width: 40%; }
 
 .table-track-items {
@@ -9031,6 +9031,9 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
 
 .table-track-items thead {
   border-bottom: 1px solid #DDD; }
+
+#trackedItems a {
+  text-decoration: none; }
 
 .table-hover > tbody > tr.meets-condition {
   color: #FFF;
@@ -9044,14 +9047,24 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
 .button-group-pulled-right .btn:first-child {
   margin-left: .5em; }
 
-.btn-icon-only {
+.trash-btn-icon-only {
   border-radius: 4px;
   border: 1px solid transparent; }
-  .btn-icon-only .fa {
+  .trash-btn-icon-only .fa {
     margin-right: 0; }
-  .btn-icon-only:hover {
+  .trash-btn-icon-only:hover {
     background-color: #E74C3C;
     border: 1px solid #cd2a19;
+    color: #FFF !important; }
+
+.pencil-btn-icon-only {
+  border-radius: 4px;
+  border: 1px solid transparent; }
+  .pencil-btn-icon-only .fa {
+    margin-right: 0; }
+  .pencil-btn-icon-only:hover {
+    background-color: #4183D7;
+    border: 1px solid #59ABE3;
     color: #FFF !important; }
 
 .btn-group-track .btn {
@@ -9059,6 +9072,9 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
 
 .btn-danger.btn-link {
   color: #cd2a19; }
+
+.btn-pencil {
+  color: #4183D7; }
 
 .form-group-no-label {
   margin-top: 1.75em; }

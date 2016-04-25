@@ -5,15 +5,24 @@ block content
     h1 My Scrapes
 
   if scrapes
-    .list-group-item.list-group-tracks-header
-      span Name
-      span Status
-      span Added
-      span Target Price
-    .list-group.list-group-tracks
-      each scrape in scrapes
-        span.list-group-item
-          a(href=scrape.url)= shorten(scrape.name, 50)
-          span= prettyTrackStatus(scrape)
-          span= prettyDate.format(scrape.createdAt)
-          span= scrape.alert.comparator
+    table#trackedItems.table.table-track-items.table-hover
+      thead
+        tr
+          th Name
+          th Status
+          th Current Price
+          th Target Price
+          th Edit
+      tbody
+        each scrape in scrapes
+          tr
+            td
+              a(href=scrape.url)= shorten(scrape.name, 50)
+            td= prettyTrackStatus(scrape)
+            td= scrape.data
+            td= scrape.alert.comparator
+            td
+              a.btn.btn-danger.btn-link.trash-btn-icon-only.bth-trash
+                i.fa.fa-trash
+              a.btn.btn-collapse.pencil-btn-icon-only.btn-pencil
+                i.fa.fa-pencil

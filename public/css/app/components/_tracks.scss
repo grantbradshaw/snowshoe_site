@@ -3,14 +3,14 @@
   font-weight: 600;
 }
 
-.list-group-tracks-header, .list-group-tracks > span {
+.list-group-tracks-header > thead > tr, .list-group-tracks > tbody > tr {
   display: flex;
 
-  > span {
+  > th, td {
     width: 20%;
   }
 
-  > a:nth-child(1), span:nth-child(1) {
+  > th:nth-child(1), td:nth-child(1) {
     width: 40%;
   }
 }
@@ -21,6 +21,10 @@
 
 .table-track-items thead {
   border-bottom: 1px solid #DDD;
+}
+
+#trackedItems a {
+  text-decoration: none;
 }
 
 .table-hover > tbody > tr.meets-condition {
