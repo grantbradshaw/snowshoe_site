@@ -40,6 +40,22 @@
 
 }
 
+.check-btn-icon-only {
+  border-radius: 4px;
+  border: 1px solid transparent;
+
+  .fa {
+    margin-right: 0;
+  }
+
+  &:hover {
+    background-color: #1E824C;
+    border: 1px solid #049372;
+    color: #FFF !important;
+  }
+
+}
+
 .btn-group-track .btn {
   margin-right: .5em;
 }
@@ -50,5 +66,9 @@
 
 .btn-pencil {
   color: #4183D7;
+}
+
+.btn-check {
+  color: #1E824C;
 }
 

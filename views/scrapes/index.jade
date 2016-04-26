@@ -15,14 +15,14 @@ block content
           th Edit
       tbody
         each scrape in scrapes
-          tr
+          tr(data-item-id=scrape._id)
             td
               a(href=scrape.url)= shorten(scrape.name, 50)
             td= prettyTrackStatus(scrape)
             td= scrape.data
             td= scrape.alert.comparator
             td
-              a.btn.btn-danger.btn-link.trash-btn-icon-only.bth-trash
+              a.btn.btn-danger.btn-link.trash-btn-icon-only.bth-trash.js-delete-scrape
                 i.fa.fa-trash
-              a.btn.btn-collapse.pencil-btn-icon-only.btn-pencil
+              a.btn.btn-collapse.pencil-btn-icon-only.btn-pencil.js-edit-scrape
                 i.fa.fa-pencil

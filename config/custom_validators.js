@@ -1,7 +1,7 @@
 module.exports = {
   customValidators: {
-    comparatorLowerThan: function(value, lowestPrice) {
-      return Number(value) < Number(lowestPrice);
+    comparatorLowerThan: function(comparator, value) {
+      return Number(comparator) < Number(value);
     }
   }
 }

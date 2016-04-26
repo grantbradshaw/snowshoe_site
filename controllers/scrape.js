@@ -103,7 +103,7 @@ exports.postScrape = function(req, res, next) {
   console.log('Creating scrape job');
   var jobName = 'scrape ' + scrape._id;
   job_scrape(agenda, jobName);
-  agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
+  agenda.every('10 minutes', jobName, { scrapeId: scrape._id });
 
   scrape.status = 'set';
 
@@ -125,9 +125,28 @@ exports.postScrape = function(req, res, next) {
 }
 
 exports.deleteScrape = function(req, res) {
-  Track.findOne({ _id: req.params.id }, function(err, track) {
-    // error handling
-    track.remove();
-    res.send({ redirect: '/scrapes' });
+  Scrape.findOne({ _id: req.params.scrapeId }, function(err, scrape) {
+    if (err) return console.error(err);
+    scrape.remove();
+    res.send({ success: true });
+  });
+}
+
+exports.editScrape = function(req, res) {
+  Scrape.findOne({ _id: req.params.scrapeId }, function(err, scrape) {
+    if (err) return console.error(err);
+
+    req.assert('comparator', 'Comparator must be a number').isNumeric();
+    req.assert('comparator', 'Comparator must be less than current price').comparatorLowerThan(scrape.data);
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+      res.send({ success: false, errors: errors });
+    } else {
+      scrape.alert.comparator = Number(req.body.comparator);
+      scrape.save();
+      res.send({ success: true }); 
+    }    
   });
 }

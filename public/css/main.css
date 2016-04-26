@@ -9067,6 +9067,16 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
     border: 1px solid #59ABE3;
     color: #FFF !important; }
 
+.check-btn-icon-only {
+  border-radius: 4px;
+  border: 1px solid transparent; }
+  .check-btn-icon-only .fa {
+    margin-right: 0; }
+  .check-btn-icon-only:hover {
+    background-color: #1E824C;
+    border: 1px solid #049372;
+    color: #FFF !important; }
+
 .btn-group-track .btn {
   margin-right: .5em; }
 
@@ -9075,6 +9085,9 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
 
 .btn-pencil {
   color: #4183D7; }
+
+.btn-check {
+  color: #1E824C; }
 
 .form-group-no-label {
   margin-top: 1.75em; }
