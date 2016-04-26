@@ -17,7 +17,7 @@ block content
         each scrape in scrapes
           tr(data-item-id=scrape._id)
             td
-              a(href=scrape.url)= shorten(scrape.name, 50)
+              a(href=scrape.url)= shorten(scrape.name, 40)
             td= prettyTrackStatus(scrape)
             td= scrape.data
             td= scrape.alert.comparator

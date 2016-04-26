@@ -9019,12 +9019,12 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
   border: none;
   font-weight: 600; }
 
-.list-group-tracks-header > thead > tr, .list-group-tracks > tbody > tr {
+.table-track-items > thead > tr, .table-track-items > tbody > tr {
   display: flex; }
-  .list-group-tracks-header > thead > tr > th, .list-group-tracks-header > thead > tr td, .list-group-tracks > tbody > tr > th, .list-group-tracks > tbody > tr td {
-    width: 20%; }
-  .list-group-tracks-header > thead > tr > th:nth-child(1), .list-group-tracks-header > thead > tr td:nth-child(1), .list-group-tracks > tbody > tr > th:nth-child(1), .list-group-tracks > tbody > tr td:nth-child(1) {
-    width: 40%; }
+  .table-track-items > thead > tr > th, .table-track-items > thead > tr td, .table-track-items > tbody > tr > th, .table-track-items > tbody > tr td {
+    width: 17.5%; }
+  .table-track-items > thead > tr > th:nth-child(1), .table-track-items > thead > tr td:nth-child(1), .table-track-items > tbody > tr > th:nth-child(1), .table-track-items > tbody > tr td:nth-child(1) {
+    width: 30%; }
 
 .table-track-items {
   border-top: 1px solid #DDD; }
