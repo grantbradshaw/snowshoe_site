@@ -31,7 +31,7 @@ var scrapeSchema = new mongoose.Schema({
  * Track alert middleware to check if condition is met.
  */
 scrapeSchema.pre('save', function(next) {
-  if (this.alert.comparator && this.alert.conditionMet === false && this.lowestScrapedPrice < this.alert.comparator) {
+  if (this.alert.comparator && this.alert.conditionMet === false && this.data < this.alert.comparator) {
     this.alert.conditionMet = true;
   }
   next();

@@ -1,6 +1,13 @@
 const Scrape = require('../models/Scrape');
 const User = require('../models/User');
 const scrapePage = require('../helpers/scrape_pages');
+const conditionMetNotification = require('../mailer/condition_met_notification');
+
+var notifyUser = function(scrape) {
+  User.findOne({ _id: scrape._userId }, function(err,user) {
+    conditionMetNotification(user, scrape);
+  });
+}
 
 module.exports = function(agenda, jobName) {
   agenda.define(jobName, function(job, done) {

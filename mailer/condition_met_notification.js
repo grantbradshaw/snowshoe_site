@@ -1,12 +1,12 @@
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
-var emailBody = function(user, track) {
+var emailBody = function(user, scrape) {
   return 'Hi ' + user.profile.firstName + ',\n\n' +
-    track.cheapestSelection.name + ' is now $' + track.cheapestSelection.data + ', ' +
-    'which is below your set price range of $' + track.alert.comparator + '. ' +
-    'It\'s available at ' + track.cheapestSelection.url + '. \n\n' +
-    'Track: ' + track.url + '\n\n' +
+    scrape.name + ' is now $' + scrape.data + ', ' +
+    'which is below your set price range of $' + scrape.alert.comparator + '. ' +
+    'It\'s available at ' + scrape.url + '. \n\n' +
+    'Track: ' + scrape.url + '\n\n' +
     'Cheers,' +
     '\nThe Snowshoe team';
 }

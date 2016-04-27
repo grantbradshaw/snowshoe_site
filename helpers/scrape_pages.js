@@ -1,15 +1,15 @@
 const User = require('../models/User');
-const conditionMetNotification = require('../mailer/condition_met_notification');
+// const conditionMetNotification = require('../mailer/condition_met_notification');
 const cleanNumberData = require('./clean_number_data');
 const cheerio = require('cheerio');
 const webdriver = require('selenium-webdriver')
 var driver = new webdriver.Builder().forBrowser('phantomjs').build();
 
-var notifyUser = function(track) {
-  User.findOne({ _id: track._userId }, function(err,user) {
-    conditionMetNotification(user, track);
-  });
-}
+// var notifyUser = function(track) {
+//   User.findOne({ _id: track._userId }, function(err,user) {
+//     conditionMetNotification(user, track);
+//   });
+// }
 
 var scrapePage = function(scrape, callback) {
   driver.get(scrape.url);

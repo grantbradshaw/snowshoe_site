@@ -28,6 +28,8 @@ const userController = require('./controllers/user');
 const scrapeController = require('./controllers/scrape');
 const alertController = require('./controllers/alert');
 const selectionController = require('./controllers/selection');
+const aboutController = require('./controllers/about');
+const howToController = require('./controllers/how_to');
 
 // passport configuration
 const passportConf = require('./config/passport');
@@ -98,6 +100,8 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
+app.get('/about', passportConf.isAuthenticated, aboutController.getAbout);
+app.get('/how-to', howToController.getHowTo);
 app.get('/scrapes', passportConf.isAuthenticated, scrapeController.getScrapes);
 // app.get('/tracks/:id', passportConf.isAuthenticated, scrapeController.getScrape);
 app.post('/scrapes', passportConf.isAuthenticated, scrapeController.postScrape);
