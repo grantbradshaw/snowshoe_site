@@ -37,6 +37,15 @@ scrapeSchema.pre('save', function(next) {
   next();
 });
 
+scrapeSchema.pre('save', function(next) {
+  if (this.data <= 0) {
+    var err = new Error('Cannot save price when less than or equal to 0')
+    next(err);
+  } else {
+    next();
+  }
+});
+
 /**
  * Remove track id from user document.
  */
