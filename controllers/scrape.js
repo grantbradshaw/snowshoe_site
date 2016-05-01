@@ -92,36 +92,38 @@ exports.postScrape = function(req, res, next) {
   //console.log('Total pages:', Object.keys(pages).length);
 
   console.log('posting');
-  var scrape = new Scrape({
-    _userId: req.user.id,
-    name: req.body.selector.name.toString(),
-    url: req.body.url,
-    selector: req.body.selector.path,
-    data: cleanNumberData(req.body.selector.content),
-    alert: {comparator: Number(req.body.selector.comparator)}
-  });
+  req.body.forEach(function(selection) {
+    var scrape = new Scrape({
+      _userId: req.user.id,
+      name: selection.selector.name.toString(),
+      url: selection.url,
+      selector: selection.selector.path,
+      data: cleanNumberData(selection.selector.content),
+      alert: {comparator: Number(selection.selector.comparator)}
+    });
 
-  console.log('Creating scrape job');
-  var jobName = 'scrape ' + scrape._id;
-  job_scrape(agenda, jobName);
-  agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
+    console.log('Creating scrape job');
+    var jobName = 'scrape ' + scrape._id;
+    job_scrape(agenda, jobName);
+    agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
 
-  scrape.status = 'set';
+    scrape.status = 'set';
 
-  // Save initial track data and respond with link.
-  scrape.save(function(err) {
-    if (err) return console.error(err);
+    // Save initial track data and respond with link.
+    scrape.save(function(err) {
+      if (err) return console.error(err);
 
-    addScrapeToUser(req.user.id, scrape);
-    console.log(scrape);
-    console.log('Scrape ' + scrape.id + ' saved');
-    console.log('-----------');
-    res.send({ success: true });
-  }).then(function(){
-    if (scrape.alert && scrape.alert.conditionMet) {
-      console.log('Condition is met. Sending email...');
-      conditionMetNotification(req, scrape); // check if this works w/ post to User
-    }
+      addScrapeToUser(req.user.id, scrape);
+      console.log(scrape);
+      console.log('Scrape ' + scrape.id + ' saved');
+      console.log('-----------');
+      res.send({ success: true });
+    }).then(function(){
+      if (scrape.alert && scrape.alert.conditionMet) {
+        console.log('Condition is met. Sending email...');
+        conditionMetNotification(req, scrape); // check if this works w/ post to User
+      }
+    });
   });
 }
 
