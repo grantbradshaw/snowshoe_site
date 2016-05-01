@@ -9,9 +9,9 @@ const conditionMetNotification = require('../mailer/condition_met_notification')
 const shorten = require('../helpers/shorten');
 
 
-function prettyTrackStatus(track) {
+function prettyTrackStatus(scrape) {
   var status;
-  switch(track.status) {
+  switch(scrape.status) {
     case 'new':
       status = 'New';
       break;

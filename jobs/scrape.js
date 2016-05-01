@@ -25,6 +25,7 @@ module.exports = function(agenda, jobName) {
           if (scrape.alert.conditionMet && scrape.status == 'set') {
             notifyUser(scrape);
             scrape.status = 'found';
+            scrape.save();
           }
         });
       });

@@ -3,9 +3,19 @@ extends ../layout
 block content
   .page-header
     h1 How To Use Snowshoe!
+    p We'll walk you through how to use our application on this page - you'll get to price track your first item and see how it all works! 
+    
+    if user
+      div
+        h3 My first snowshoe
+        if testing
+          p(id='dev-snowshoe-price') $149.99
+          p It's a sale!
+        else
+          p(id='dev-snowshoe-price') $199.99
 
-  p We'll walk you through how to use our application on this page - you'll get to price track your first item and see how it all works! 
+    else if headless
+      p(id='dev-snowshoe-price') $149.99
 
-  div
-    h3 My first snowshoe
-    p $149.99
+    else 
+      p Please make an account to use our app!

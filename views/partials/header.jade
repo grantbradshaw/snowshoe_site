@@ -17,12 +17,10 @@
         else
           li(class=title=='My scrapes'?'active':undefined)
             a(href='/scrapes') Scrapes
-        if user
-          li(class=title=='About'?'active':undefined)
-            a(href='/about') About Us
-        if user
-          li(class=title=='How To'?'active':undefined)
-            a(href='/how-to') How To Use
+        li(class=title=='About'?'active':undefined)
+          a(href='/about') About Us
+        li(class=title=='How To'?'active':undefined)
+          a(href='/how-to') How To Use
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=title=='Login'?'active':undefined)
