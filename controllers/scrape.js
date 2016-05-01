@@ -91,6 +91,7 @@ exports.postScrape = function(req, res, next) {
 
   //console.log('Total pages:', Object.keys(pages).length);
 
+  console.log('posting');
   var scrape = new Scrape({
     _userId: req.user.id,
     name: req.body.selector.name.toString(),

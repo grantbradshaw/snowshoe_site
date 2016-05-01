@@ -8,14 +8,12 @@ block content
     if user
       div
         h3 My first snowshoe
-        if testing
+        if sale
           p(id='dev-snowshoe-price') $149.99
           p It's a sale!
         else
           p(id='dev-snowshoe-price') $199.99
 
-    else if headless
-      p(id='dev-snowshoe-price') $149.99
-
     else 
       p Please make an account to use our app!
+      p(id='dev-snowshoe-price' hidden) $149.99
