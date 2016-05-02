@@ -100,15 +100,9 @@ exports.postScrape = function(req, res, next) {
       url: selection.url,
       selector: selection.selector.path,
       data: cleanNumberData(selection.selector.content),
-      alert: {comparator: Number(selection.selector.comparator)}
+      alert: {comparator: Number(selection.selector.comparator)},
+      status: 'set'
     });
-
-    console.log('Creating scrape job');
-    var jobName = 'scrape ' + scrape._id;
-    job_scrape(agenda, jobName);
-    agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
-
-    scrape.status = 'set';
 
     // Save initial track data and respond with link.
     scrape.save(function(err) {
@@ -118,11 +112,18 @@ exports.postScrape = function(req, res, next) {
       console.log(scrape);
       console.log('Scrape ' + scrape.id + ' saved');
       console.log('-----------');
-    }).then(function(){
-      if (scrape.alert && scrape.alert.conditionMet) {
-        console.log('Condition is met. Sending email...');
-        conditionMetNotification(req, scrape); // check if this works w/ post to User
-      }
+    })
+      .then(function(){
+        console.log('Creating scrape job');
+        var jobName = 'scrape ' + scrape._id;
+        job_scrape(agenda, jobName);
+        agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
+      })
+      .then(function(){
+        if (scrape.alert && scrape.alert.conditionMet) {
+          console.log('Condition is met. Sending email...');
+          conditionMetNotification(req, scrape); // check if this works w/ post to User
+        }
     });
   });
 }
