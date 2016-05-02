@@ -92,6 +92,7 @@ exports.postScrape = function(req, res, next) {
   //console.log('Total pages:', Object.keys(pages).length);
 
   console.log('posting');
+  res.send({ success: true });
   req.body.forEach(function(selection) {
     var scrape = new Scrape({
       _userId: req.user.id,
@@ -117,7 +118,6 @@ exports.postScrape = function(req, res, next) {
       console.log(scrape);
       console.log('Scrape ' + scrape.id + ' saved');
       console.log('-----------');
-      res.send({ success: true });
     }).then(function(){
       if (scrape.alert && scrape.alert.conditionMet) {
         console.log('Condition is met. Sending email...');
