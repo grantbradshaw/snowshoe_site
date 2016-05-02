@@ -117,7 +117,7 @@ exports.postScrape = function(req, res, next) {
         console.log('Creating scrape job');
         var jobName = 'scrape ' + scrape._id;
         job_scrape(agenda, jobName);
-        agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
+        agenda.every('4 hours', jobName, { scrapeId: scrape._id });
       })
       .then(function(){
         if (scrape.alert && scrape.alert.conditionMet) {
