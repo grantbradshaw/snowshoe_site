@@ -29,6 +29,7 @@ var conditionMetNotification = function(user, track) {
   }
   transporter.sendMail(mailOptions, function(err) {
     if(err) {
+      console.error(err);
       return next(err);
     } else {
       console.log('Email notification sent.')
