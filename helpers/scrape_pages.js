@@ -12,6 +12,7 @@ var driver = new webdriver.Builder().forBrowser('phantomjs').build();
 // }
 
 var scrapePage = function(scrape, callback) {
+  if (!scrape) return false;
   driver.get(scrape.url);
 
   var sleepPeriod = 4000
