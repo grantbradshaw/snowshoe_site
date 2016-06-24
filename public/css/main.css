@@ -9024,7 +9024,7 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
   .table-track-items > thead > tr > th, .table-track-items > thead > tr td, .table-track-items > tbody > tr > th, .table-track-items > tbody > tr td {
     width: 17.5%; }
   .table-track-items > thead > tr > th:nth-child(1), .table-track-items > thead > tr td:nth-child(1), .table-track-items > tbody > tr > th:nth-child(1), .table-track-items > tbody > tr td:nth-child(1) {
-    width: 30%; }
+    width: 50%; }
 
 .table-track-items {
   border-top: 1px solid #DDD; }
@@ -9033,7 +9033,7 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
   border-bottom: 1px solid #DDD; }
 
 #trackedItems a {
-  text-decoration: none; }
+  text-decoration: underline; }
 
 .table-hover > tbody > tr.meets-condition {
   color: #FFF;

@@ -17,6 +17,9 @@ $(document).ready(function() {
   // });
 
   $('#trackedItems').on('click', '.js-delete-scrape', function() {
+    var confirmation = window.confirm('Are you sure?');
+    if (!confirmation) return false;
+
     var target = this;
     var scrapeId = $(target).closest('[data-item-id]').attr('data-item-id').replace(/"/g, '');
     var deletePath = window.location.pathname + '/' + scrapeId + '/delete';

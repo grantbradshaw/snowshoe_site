@@ -46,6 +46,14 @@ scrapeSchema.pre('save', function(next) {
   }
 });
 
+scrapeSchema.pre('save', function(next) {
+  if (this.status == 'found' && this.alert.comparator < this.data) {
+    this.status = 'set'
+    this.alert.conditionMet = false;
+  }
+  next();
+});
+
 /**
  * Remove track id from user document.
  */

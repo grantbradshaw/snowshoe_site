@@ -31,7 +31,7 @@ var scrapePage = function(scrape, callback) {
       // });
       var price = cleanNumberData($(scrape.selector).text());
 
-      callback(scrape, price);
+      callback(scrape, price, body);
     });
   });
 }
