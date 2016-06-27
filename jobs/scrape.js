@@ -14,7 +14,6 @@ var notifyUser = function(scrape, body) {
 module.exports = function(agenda, jobName) {
   agenda.define(jobName, function(job, done) {
     Scrape.findOne({ '_id': job.attrs.data.scrapeId }, function(err, scrape) {
-
       scrapePage(scrape, function(scrape, price, body) {
         scrape.data = price;
 
