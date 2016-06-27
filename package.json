@@ -13,6 +13,7 @@
     "async": "^1.5.2",
     "bcrypt-nodejs": "0.0.3",
     "blessed": "^0.1.81",
+    "bluebird": "^3.4.1",
     "body-parser": "^1.15.0",
     "cheerio": "^0.20.0",
     "compression": "^1.6.1",

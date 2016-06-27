@@ -21,7 +21,8 @@ module.exports = function(agenda, jobName) {
         scrape.save(function(err) {
           if (err) {
             console.log("Failed scrape is", scrape.url);
-            return console.error(err);
+            console.error(err);
+            return err;
           } else {
             console.log("Successful scrape", scrape.url);
           }

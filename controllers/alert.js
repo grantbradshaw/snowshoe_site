@@ -45,7 +45,7 @@ exports.postAlert = function(req, res, next) {
     console.log('Create scrape job');
     var jobName = 'scrape ' + scrape._id;
     scrape(agenda, jobName);
-    agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
+    agenda.every('2 minutes', jobName, { scrapeId: scrape._id });
 
     // Update track status.
     scrape.status = 'set';
