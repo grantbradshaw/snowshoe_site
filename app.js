@@ -18,6 +18,7 @@ const passport = require('passport');
 const customValidators = require('./config/custom_validators');
 const cors = require('cors');
 const lusca = require('lusca');
+const helmet = require('helmet');
 
 // load the environment variables
 dotenv.load();
@@ -87,6 +88,7 @@ app.use(function(req, res, next){
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use(helmet());
 
 
 // routing

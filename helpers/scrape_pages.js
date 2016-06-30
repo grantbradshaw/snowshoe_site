@@ -2,7 +2,6 @@ const User = require('../models/User');
 const cleanNumberData = require('./clean_number_data');
 const cheerio = require('cheerio');
 const webdriver = require('selenium-webdriver')
-// const driver = new webdriver.Builder().forBrowser('phantomjs').build();
 
 var scrapePage = function(scrape, callback) {
   if (!scrape) return false; // handles attempt to scrape page after deletion
@@ -21,8 +20,8 @@ var scrapePage = function(scrape, callback) {
       throw e;
     }
   })
-  .then(function(v){
-    if (v.message && v.message.match("Timed out")){
+  .then(function(e){
+    if (e.message && e.message.match("Timed out")){
       driver.quit();
       console.log("Exiting scrapePage function")
     } else {
