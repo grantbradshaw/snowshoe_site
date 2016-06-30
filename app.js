@@ -78,8 +78,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(cors());
+// app.use(function(req, res, next){
+//   if (req.path === "/scrapes"){
+//     next();
+//   } else {
+//     lusca.csrf()(req, res, next);
+//   }
+// });
 app.use(lusca({
-  csrf: false,
+  csrf: true,
   xframe: 'SAMEORIGIN',
   xssProtection: true
 }));
