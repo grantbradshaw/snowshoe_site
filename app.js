@@ -19,6 +19,8 @@ const customValidators = require('./config/custom_validators');
 const cors = require('cors');
 const lusca = require('lusca');
 const helmet = require('helmet');
+// const expressJWT = require('express-jwt');
+const jwt = require('jsonwebtoken'); 
 
 // load the environment variables
 dotenv.load();
@@ -31,6 +33,7 @@ const alertController = require('./controllers/alert');
 const selectionController = require('./controllers/selection');
 const aboutController = require('./controllers/about');
 const howToController = require('./controllers/how_to');
+const securityController = require('./controllers/security');
 
 // passport configuration
 const passportConf = require('./config/passport');
@@ -78,19 +81,29 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(cors());
+app.use(function(req, res, next){
+  res.locals.user = req.user;
+  next();
+});
 app.use(function(req, res, next) {
   if (req.path === '/scrapes' && req.method === 'POST') {
+    jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET, function(err, decoded){
+      if (decoded.email != req.user.email){
+        // pass w/ custom error -> inhibits general use of pinched jwt
+      } else {
+        next(err);
+      }
+    });
+  } else if (req.path === '/qurewweofsadfasf'){
+    // jwt request route
     next();
-  } else {
+  } 
+  else {
     lusca.csrf()(req, res, next);
   }
 });
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
-app.use(function(req, res, next){
-  res.locals.user = req.user;
-  next();
-});
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 app.use(helmet());
 
@@ -107,6 +120,7 @@ app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
 app.get('/about', aboutController.getAbout);
 app.get('/how-to', howToController.getHowTo);
+app.get('/qurewweofsadfasf', passportConf.isAuthenticated, securityController.serveJWT);
 app.get('/scrapes', passportConf.isAuthenticated, scrapeController.getScrapes);
 // app.get('/tracks/:id', passportConf.isAuthenticated, scrapeController.getScrape);
 app.post('/scrapes', passportConf.isAuthenticated, scrapeController.postScrape);
