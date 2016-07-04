@@ -86,11 +86,6 @@ exports.getScrapes = function(req, res) {
 // }
 
 exports.postScrape = function(req, res, next) {
-  // var name = req.body['trackName'];
-  // var pages = req.body.pages;
-
-  //console.log('Total pages:', Object.keys(pages).length);
-
   console.log('posting');
   res.send({ success: true });
   req.body.forEach(function(selection) {

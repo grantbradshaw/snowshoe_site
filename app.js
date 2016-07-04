@@ -78,25 +78,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(cors());
-// app.use(function(req, res, next){
-//   if (req.path === "/scrapes"){
-//     next();
-//   } else {
-//     lusca.csrf()(req, res, next);
-//   }
-// });
-app.use(lusca({
-  csrf: true,
-  xframe: 'SAMEORIGIN',
-  xssProtection: true
-}));
+app.use(function(req, res, next) {
+  if (req.path === '/scrapes' && req.method === 'POST') {
+    next();
+  } else {
+    lusca.csrf()(req, res, next);
+  }
+});
+app.use(lusca.xframe('SAMEORIGIN'));
+app.use(lusca.xssProtection(true));
 app.use(function(req, res, next){
   res.locals.user = req.user;
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 app.use(helmet());
-
 
 // routing
 app.get('/', homeController.index);

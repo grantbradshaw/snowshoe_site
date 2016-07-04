@@ -23,14 +23,15 @@ $(document).ready(function() {
     var target = this;
     var scrapeId = $(target).closest('[data-item-id]').attr('data-item-id').replace(/"/g, '');
     var deletePath = window.location.pathname + '/' + scrapeId + '/delete';
-    $.post(deletePath, function(res) {
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+    $.post(deletePath, {_csrf: csrf_token}, function(res) {
       if (res.success) {
         $(target).closest('tr').hide();
       }
     })
-      .fail(function(res) {
-        console.log(res.responseText);
-      });
+    .fail(function(res) {
+      console.log(res.responseText);
+    });
   });
 
   $('#trackedItems').on('click', '.js-edit-scrape', function() {
@@ -50,7 +51,8 @@ $(document).ready(function() {
     var scrapeId = $(target).closest('[data-item-id]').attr('data-item-id').replace(/"/g, '');
     var comparator = $(target).parent().parent().children('td').eq(3).text();
     var editPath = window.location.pathname + '/' + scrapeId + '/edit';
-    $.post(editPath, { comparator: comparator }, function(res) {
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+    $.post(editPath, { comparator: comparator, _csrf: csrf_token }, function(res) {
       if (res.success) {
         $(target).parent().parent().children('td').eq(3).removeAttr('contenteditable').css('background', 'none');
         $(target).children('i').removeClass('fa-check').addClass('fa-pencil');
