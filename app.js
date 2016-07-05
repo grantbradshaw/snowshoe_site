@@ -19,7 +19,6 @@ const customValidators = require('./config/custom_validators');
 const cors = require('cors');
 const lusca = require('lusca');
 const helmet = require('helmet');
-// const expressJWT = require('express-jwt');
 const jwt = require('jsonwebtoken'); 
 
 // load the environment variables
@@ -87,12 +86,9 @@ app.use(function(req, res, next){
 });
 app.use(function(req, res, next) {
   if (req.path === '/scrapes' && req.method === 'POST') {
-    jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET, function(err, decoded){
-      if (decoded.email != req.user.email){
-        // pass w/ custom error -> inhibits general use of pinched jwt
-      } else {
-        next(err);
-      }
+    jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET + req.user.email, function(err, decoded){
+      console.log(decoded);
+      next(err);
     });
   } else if (req.path === '/qurewweofsadfasf'){
     // jwt request route
@@ -104,6 +100,8 @@ app.use(function(req, res, next) {
 });
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
+
+
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 app.use(helmet());
 
