@@ -87,7 +87,6 @@ app.use(function(req, res, next){
 app.use(function(req, res, next) {
   if (req.path === '/scrapes' && req.method === 'POST') {
     jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET + req.user.email, function(err, decoded){
-      console.log(decoded);
       next(err);
     });
   } else if (req.path === '/qurewweofsadfasf'){
