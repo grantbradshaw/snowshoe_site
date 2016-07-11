@@ -30,7 +30,7 @@ const userController = require('./controllers/user');
 const scrapeController = require('./controllers/scrape');
 const alertController = require('./controllers/alert');
 const selectionController = require('./controllers/selection');
-const aboutController = require('./controllers/about');
+const staticController = require('./controllers/static');
 const howToController = require('./controllers/how_to');
 const securityController = require('./controllers/security');
 
@@ -115,7 +115,8 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
-app.get('/about', aboutController.getAbout);
+app.get('/about', staticController.getAbout);
+app.get('/contact', staticController.getContact);
 app.get('/how-to', howToController.getHowTo);
 app.get('/qurewweofsadfasf', passportConf.isAuthenticated, securityController.serveJWT);
 app.get('/scrapes', passportConf.isAuthenticated, scrapeController.getScrapes);

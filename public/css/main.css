@@ -9041,6 +9041,9 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
   .table-hover > tbody > tr.meets-condition td:nth-child(3) a {
     color: #FFF; }
 
+.license {
+  font-size: 13px; }
+
 .btn-collapse {
   cursor: pointer; }
 
