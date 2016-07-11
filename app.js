@@ -74,7 +74,10 @@ app.use(session({
   store: new MongoStore({
     url: process.env.MONGODB || process.env.MONGOLAB_URI || process.env.MONGODB_URI,
     autoReconnect: true
-  })
+  }),
+  cookie: {
+    domain: 'localhost:3000'
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -142,5 +145,10 @@ app.use(errorHandler());
 app.listen(app.get('port'), function(){
   console.log('Listening on port %d in environment %s', app.get('port'), app.get('env'))
 });
+
+/*
+  Note to self - set up https for production environment. This means setting session cookie secure to true, using https module for server,
+  (and only https, no http) and other appropriate procedures per OWASP standards, getting certificate from letsencrypt. 
+*/
 
 module.exports = app;
