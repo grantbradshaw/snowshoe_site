@@ -46,6 +46,7 @@
     "path": "^0.12.7",
     "pretty-date": "^0.2.0",
     "request": "^2.72.0",
+    "safe-regex": "^1.1.0",
     "selenium-webdriver": "^2.53.1",
     "serve-favicon": "^2.3.0",
     "shush": "^1.0.0",

@@ -20,6 +20,7 @@ const cors = require('cors');
 const lusca = require('lusca');
 const helmet = require('helmet');
 const jwt = require('jsonwebtoken'); 
+const safe = require('safe-regex');
 
 // load the environment variables
 dotenv.load();
@@ -83,6 +84,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(cors());
+app.use(function(req, res, next){
+  if (!safe(req.body.email)) {req.body.email = undefined}
+  if (!safe(req.body.password)) {req.body.password = undefined};
+  next();
+});
 app.use(function(req, res, next){
   res.locals.user = req.user;
   next();
