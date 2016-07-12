@@ -1,6 +1,8 @@
+'use strict';
+
 const Agenda = require('agenda');
 const AgendaJob = require('../models/AgendaJob');
-var scrape = require('../jobs/scrape')
+var scrape = require('../jobs/scrape');
 
 var agenda = new Agenda();
 agenda

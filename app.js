@@ -1,3 +1,5 @@
+'use strict';
+
 // dependencies
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -9,7 +11,7 @@ const compress = require('compression');
 const dotenv = require('dotenv');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
-const MongoStore = require('connect-mongo')(session)
+const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
@@ -29,8 +31,6 @@ dotenv.load();
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const scrapeController = require('./controllers/scrape');
-const alertController = require('./controllers/alert');
-const selectionController = require('./controllers/selection');
 const staticController = require('./controllers/static');
 const howToController = require('./controllers/how_to');
 const securityController = require('./controllers/security');
@@ -48,8 +48,8 @@ mongoose.connection.on('error', function() {
   process.exit(1);
 });
 
-// create agenda to manage jobs
-const agenda = require('./config/agenda');
+// create agenda to manage jobs -> don't think agenda needs to be defined here
+// const agenda = require('./config/agenda');
 
 
 // express configuration
@@ -85,8 +85,8 @@ app.use(passport.session());
 app.use(flash());
 app.use(cors());
 app.use(function(req, res, next){
-  if (!safe(req.body.email)) {req.body.email = undefined}
-  if (!safe(req.body.password)) {req.body.password = undefined};
+  if (!safe(req.body.email)) {req.body.email = undefined;}
+  if (!safe(req.body.password)) {req.body.password = undefined;}
   next();
 });
 app.use(function(req, res, next){
@@ -95,7 +95,7 @@ app.use(function(req, res, next){
 });
 app.use(function(req, res, next) {
   if (req.path === '/scrapes' && req.method === 'POST') {
-    jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET + req.user.email, function(err, decoded){
+    jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET + req.user.email, function(err){
       next(err);
     });
   } else if (req.path === '/qurewweofsadfasf'){
@@ -149,7 +149,7 @@ app.use(errorHandler());
 
 // starting express server
 app.listen(app.get('port'), function(){
-  console.log('Listening on port %d in environment %s', app.get('port'), app.get('env'))
+  console.log('Listening on port %d in environment %s', app.get('port'), app.get('env'));
 });
 
 /*

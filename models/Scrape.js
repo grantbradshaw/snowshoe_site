@@ -1,6 +1,8 @@
+'use strict';
+
 const User = require('./User');
 const AgendaJob = require('./AgendaJob');
-const conditionMetNotification = require('../mailer/condition_met_notification');
+// const conditionMetNotification = require('../mailer/condition_met_notification');
 const mongoose = require('mongoose');
 
 var alertSchema = new mongoose.Schema({
@@ -39,7 +41,7 @@ scrapeSchema.pre('save', function(next) {
 
 scrapeSchema.pre('save', function(next) {
   if (this.data <= 0) {
-    var err = new Error('Cannot save price when less than or equal to 0')
+    var err = new Error('Cannot save price when less than or equal to 0');
     next(err);
   } else {
     next();
@@ -48,7 +50,7 @@ scrapeSchema.pre('save', function(next) {
 
 scrapeSchema.pre('save', function(next) {
   if (this.status == 'found' && this.alert.comparator < this.data) {
-    this.status = 'set'
+    this.status = 'set';
     this.alert.conditionMet = false;
   }
   next();

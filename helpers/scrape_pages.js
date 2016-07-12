@@ -1,7 +1,9 @@
-const User = require('../models/User');
+'use strict';
+
+// const User = require('../models/User');
 const cleanNumberData = require('./clean_number_data');
 const cheerio = require('cheerio');
-const webdriver = require('selenium-webdriver')
+const webdriver = require('selenium-webdriver');
 
 var scrapePage = function(scrape, callback) {
   if (!scrape) return false; // handles attempt to scrape page after deletion
@@ -23,7 +25,7 @@ var scrapePage = function(scrape, callback) {
   .then(function(e){
     if (e.message && e.message.match("Timed out")){
       driver.quit();
-      console.log("Exiting scrapePage function")
+      console.log("Exiting scrapePage function");
     } else {
       driver.getPageSource().then(function(body){
         console.log('Got page source. Scraping it now');
@@ -34,6 +36,6 @@ var scrapePage = function(scrape, callback) {
       });
     }
   });
-}
+};
 
 module.exports = scrapePage;

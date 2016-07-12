@@ -1,3 +1,5 @@
+'use strict';
+
 // GET /how-to
 const Scrape = require('../models/Scrape');
 
@@ -19,4 +21,4 @@ exports.getHowTo = function(req, res) {
       title: 'How To'
     });
   }
-}
+};

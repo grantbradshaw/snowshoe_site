@@ -1,3 +1,5 @@
+'use strict';
+
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto'); // is this deprecated?
 const mongoose = require('mongoose');
@@ -11,7 +13,7 @@ const userSchema = new mongoose.Schema({
           required: true,
           validate: {
             validator: function(e){
-              return validator.isEmail(e)
+              return validator.isEmail(e);
             },
             message: 'Not a valid email'
           }},
@@ -41,11 +43,11 @@ userSchema.pre('save', function(next){
   }
   bcrypt.genSalt(10, function(err, salt){
     if (err){
-      return next(err)
+      return next(err);
     }
     bcrypt.hash(user.password, salt, null, function(err, hash){
       if (err){
-        return next(err)
+        return next(err);
       }
       user.password = hash;
       next();
@@ -72,11 +74,11 @@ userSchema.post('remove', function(user) {
 userSchema.methods.comparePassword = function(candidatePassword, cb){
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch){
     if (err){
-      return cb(err)
+      return cb(err);
     }
-    cb(null, isMatch)
+    cb(null, isMatch);
   });
-}
+};
 
 // helper for getting gravatars
 userSchema.methods.gravatar = function(size) {
@@ -88,13 +90,13 @@ userSchema.methods.gravatar = function(size) {
   }
   var md5 = crypto.createHash('md5').update(this.email).digest('hex');
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
-}
+};
 
 // helper for formatting full name
 userSchema.methods.fullName = function(){
   if (this.profile.firstName && this.profile.lastName){
-    return this.profile.firstName + ' ' + this.profile.lastName
+    return this.profile.firstName + ' ' + this.profile.lastName;
   }
-}
+};
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);

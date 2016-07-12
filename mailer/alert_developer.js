@@ -1,3 +1,5 @@
+'use strict';
+
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
@@ -6,7 +8,7 @@ var emailBody = function(scrape, body) {
   'selector is ' + scrape.selector + '\n\n' +
   'url is ' + scrape.url + '\n\n' +
   body;
-}
+};
 
 var alertDeveloper = function(scrape, body) {
   var transporter = nodemailer.createTransport(smtpTransport({
@@ -23,16 +25,16 @@ var alertDeveloper = function(scrape, body) {
     to: 'snowshoe.apps@gmail.com',
     subject: 'Verify hit',
     text: emailBody(scrape, body)
-  }
-  if (scrape.selector == '#dev-snowshoe-price') return false
+  };
+  if (scrape.selector == '#dev-snowshoe-price') {return false;}
   transporter.sendMail(mailOptions, function(err) {
     if(err) {
       console.error(err);
       // return next(err);
     } else {
-      console.log('Developer notified.')
+      console.log('Developer notified.');
     }
   });
-}
+};
 
 module.exports = alertDeveloper;

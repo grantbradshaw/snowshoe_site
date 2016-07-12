@@ -1,3 +1,5 @@
+'use strict';
+
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
@@ -9,7 +11,7 @@ var emailBody = function(user, scrape) {
     'Track: ' + scrape.url + '\n\n' +
     'Cheers,' +
     '\nThe Snowshoe team';
-}
+};
 
 var conditionMetNotification = function(user, track) {
   var transporter = nodemailer.createTransport(smtpTransport({
@@ -26,15 +28,15 @@ var conditionMetNotification = function(user, track) {
     to: user.email,
     subject: 'Snowshoe notification',
     text: emailBody(user, track)
-  }
+  };
   transporter.sendMail(mailOptions, function(err) {
     if(err) {
       console.error(err);
       // return next(err);
     } else {
-      console.log('Email notification sent.')
+      console.log('Email notification sent.');
     }
   });
-}
+};
 
 module.exports = conditionMetNotification;

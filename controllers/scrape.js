@@ -1,7 +1,9 @@
+'use strict';
+
 const Scrape = require('../models/Scrape');
 const User = require('../models/User');
 const prettyDate = require('pretty-date');
-const scrapePages = require('../helpers/scrape_pages');
+// const scrapePages = require('../helpers/scrape_pages');
 const cleanNumberData = require('../helpers/clean_number_data');
 const job_scrape = require('../jobs/scrape');
 const agenda = require('../config/agenda');
@@ -30,7 +32,7 @@ function prettyTrackStatus(scrape) {
 function addScrapeToUser(id, scrape) {
   User.update({ _id: id },
   { $push: { scrapeIds: scrape.id }},
-  function(err, user) {
+  function(err) {
     if (err) {
       return console.error(err);
     }
@@ -47,7 +49,7 @@ exports.getScrapes = function(req, res) {
       shorten: shorten
     });
   });
-}
+};
 
 // exports.getScrape = function(req, res) {
 //   Scrape.findOne({ '_id': req.params.id }, function(err, scrape) {
@@ -85,7 +87,7 @@ exports.getScrapes = function(req, res) {
 //   });
 // }
 
-exports.postScrape = function(req, res, next) {
+exports.postScrape = function(req, res) {
   console.log('posting');
   res.send({ success: true });
   req.body.forEach(function(selection) {
@@ -121,7 +123,7 @@ exports.postScrape = function(req, res, next) {
         }
     });
   });
-}
+};
 
 exports.deleteScrape = function(req, res) {
   Scrape.findOne({ _id: req.params.scrapeId }, function(err, scrape) {
@@ -129,7 +131,7 @@ exports.deleteScrape = function(req, res) {
     scrape.remove();
     res.send({ success: true });
   });
-}
+};
 
 exports.editScrape = function(req, res) {
   Scrape.findOne({ _id: req.params.scrapeId }, function(err, scrape) {
@@ -148,4 +150,4 @@ exports.editScrape = function(req, res) {
       res.send({ success: true }); 
     }    
   });
-}
+};

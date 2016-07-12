@@ -1,17 +1,19 @@
-const _ = require('lodash');
+'use strict';
+
+// const _ = require('lodash');
 const passport = require('passport');
-const request = require('request');
+// const request = require('request');
 const localStrategy = require('passport-local').Strategy;
 
 const User = require('../models/User');
 
 passport.serializeUser(function(user, done){
-  done(null, user.id)
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done){
   User.findById(id, function(err, user){
-    done(err, user)
+    done(err, user);
   });
 });
 
@@ -38,6 +40,6 @@ exports.isAuthenticated = function(req, res, next){
     return next();
   }
   res.redirect('/login');
-}
+};
 
 // have not defined isAuthorized as no api enabling

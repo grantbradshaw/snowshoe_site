@@ -1,67 +1,69 @@
-const Scrape = require('../models/Scrape');
-const conditionMetNotification = require('../mailer/condition_met_notification');
-const prettyDate = require('pretty-date');
-const agenda = require('../config/agenda');
-const scrape = require('../jobs/scrape');
+// 'use strict';
 
-exports.postAlert = function(req, res, next) {
-  req.assert('alertOperator', 'Alert operator can\'t be empty').notEmpty();
-  req.assert('alertComparator', 'Alert comparator can\'t be empty').notEmpty();
-  req.checkBody('alertComparator', 'The price must be less than $' + req.body.lowestPrice + ' – the current cheapest item.').comparatorLowerThan(req.body.lowestPrice); 
-  // definitely requires two arguments for comparison
+// const Scrape = require('../models/Scrape');
+// const conditionMetNotification = require('../mailer/condition_met_notification');
+// const prettyDate = require('pretty-date');
+// const agenda = require('../config/agenda');
+// const scrape = require('../jobs/scrape');
 
-  var validationErrors = req.validationErrors();
+// exports.postAlert = function(req, res) {
+//   req.assert('alertOperator', 'Alert operator can\'t be empty').notEmpty();
+//   req.assert('alertComparator', 'Alert comparator can\'t be empty').notEmpty();
+//   req.checkBody('alertComparator', 'The price must be less than $' + req.body.lowestPrice + ' – the current cheapest item.').comparatorLowerThan(req.body.lowestPrice); 
+//   // definitely requires two arguments for comparison
 
-  Scrape.findOne({ '_id': req.params.id}, function(err, track) {
-    if (err) return console.error(err);
+//   var validationErrors = req.validationErrors();
 
-    if (validationErrors) {
-      var lessThanSelected;
+//   Scrape.findOne({ '_id': req.params.id}, function(err, track) {
+//     if (err) return console.error(err);
 
-      req.flash('errors', validationErrors);
+//     if (validationErrors) {
+//       var lessThanSelected;
 
-      // Set the selected operator dropdown
-      req.body.alertOperator == '<' ? lessThanSelected = true : lessThanSelected = false;
+//       req.flash('errors', validationErrors);
 
-      return res.render('tracks/show', {
-        title: track.name,
-        track: track,
-        lessThanSelected: lessThanSelected,
-        alertComparator: req.body.alertComparator || '',
-        prettyDate: prettyDate,
-        displayAlertForm: true,
-        prettyAlertOperator: prettyAlertOperator
-      });
-    }
+//       // Set the selected operator dropdown
+//       lessThanSelected = req.body.alertOperator == '<';
 
-    // Upsert valid track alert.
-    scrape.alert = {
-      operator: req.body.alertOperator,
-      comparator: Number(req.body.alertComparator),
-      conditionMet: track.alert.conditionMet // Required, otherwise it will revert to default value.
-    }
+//       return res.render('tracks/show', {
+//         title: track.name,
+//         track: track,
+//         lessThanSelected: lessThanSelected,
+//         alertComparator: req.body.alertComparator || '',
+//         prettyDate: prettyDate,
+//         displayAlertForm: true,
+//         prettyAlertOperator: prettyAlertOperator
+//       });
+//     }
 
-    // Create scrape job 
-    console.log('Create scrape job');
-    var jobName = 'scrape ' + scrape._id;
-    scrape(agenda, jobName);
-    agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
+//     // Upsert valid track alert.
+//     scrape.alert = {
+//       operator: req.body.alertOperator,
+//       comparator: Number(req.body.alertComparator),
+//       conditionMet: track.alert.conditionMet // Required, otherwise it will revert to default value.
+//     }
 
-    // Update track status.
-    scrape.status = 'set';
+//     // Create scrape job 
+//     console.log('Create scrape job');
+//     var jobName = 'scrape ' + scrape._id;
+//     scrape(agenda, jobName);
+//     agenda.every('30 seconds', jobName, { scrapeId: scrape._id });
 
-    scrape.save(function (err) {
-      if (err) return console.error(err);
-      console.log('Saved alert to track');
-    }).then(function () {
-      // Check if alert condition is met.
-      // If met, send notification email to user.
-      if (scrape.alert && scrape.alert.conditionMet) {
-        console.log('Condition is met. Sending email...'); // may be superfluous 
-        conditionMetNotification(req, scrape);
-      }
-    });
+//     // Update track status.
+//     scrape.status = 'set';
 
-    return res.redirect('/tracks/' + req.params.id);
-  });
-}
+//     scrape.save(function (err) {
+//       if (err) return console.error(err);
+//       console.log('Saved alert to track');
+//     }).then(function () {
+//       // Check if alert condition is met.
+//       // If met, send notification email to user.
+//       if (scrape.alert && scrape.alert.conditionMet) {
+//         console.log('Condition is met. Sending email...'); // may be superfluous 
+//         conditionMetNotification(req, scrape);
+//       }
+//     });
+
+//     return res.redirect('/tracks/' + req.params.id);
+//   });
+// }

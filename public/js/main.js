@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
 
   // $('#trackedItems').on('click', '.js-delete-item', function() {

@@ -1,3 +1,5 @@
+'use strict';
+
 const _ = require('lodash');
 const async = require('async');
 const crypto = require('crypto');
@@ -13,7 +15,7 @@ exports.getLogin = function(req, res){
   res.render('account/login', {
     title: 'Login'
   });
-}
+};
 
 // POST /login
 exports.postLogin = function(req, res, next) {
@@ -57,7 +59,7 @@ exports.getSignup = function(req,res){
     lastName: '',
     email: ''
   });
-}
+};
 
 // POST /signup
 exports.postSignup = function(req, res, next) {
@@ -105,13 +107,13 @@ exports.postSignup = function(req, res, next) {
       });
     });
   });
-}
+};
 
 // GET /logout
 exports.logout = function(req, res) {
   req.logout();
   res.redirect('/');
-}
+};
 
 /**
  * GET /account
@@ -216,7 +218,7 @@ exports.getOauthUnlink = function(req, res, next) {
  * GET /reset/:token
  * Reset Password page.
  */
-exports.getReset = function(req, res) {
+exports.getReset = function(req, res, next) {
   if (req.isAuthenticated()) {
     return res.redirect('/');
   }
