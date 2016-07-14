@@ -18,7 +18,7 @@ const expressValidator = require('express-validator');
 const flash = require('express-flash');
 const passport = require('passport');
 const customValidators = require('./config/custom_validators');
-const cors = require('cors');
+// const cors = require('cors');
 const lusca = require('lusca');
 const helmet = require('helmet');
 const jwt = require('jsonwebtoken'); 
@@ -77,13 +77,13 @@ app.use(session({
     autoReconnect: true
   }),
   cookie: {
-    domain: 'localhost:3000'
+    domain: 'localhost:3000',
+    httpOnly: true
   }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(cors());
 app.use(function(req, res, next){
   if (!safe(req.body.email)) {req.body.email = undefined;}
   if (!safe(req.body.password)) {req.body.password = undefined;}
@@ -98,8 +98,7 @@ app.use(function(req, res, next) {
     jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET + req.user.email, function(err){
       next(err);
     });
-  } else if (req.path === '/qurewweofsadfasf'){
-    // jwt request route
+  } else if (req.path === '/token'){
     next();
   } 
   else {
@@ -127,7 +126,7 @@ app.post('/signup', userController.postSignup);
 app.get('/about', staticController.getAbout);
 app.get('/contact', staticController.getContact);
 app.get('/how-to', howToController.getHowTo);
-app.get('/qurewweofsadfasf', passportConf.isAuthenticated, securityController.serveJWT);
+app.get('/token', passportConf.isAuthenticated, securityController.serveJWT);
 app.get('/scrapes', passportConf.isAuthenticated, scrapeController.getScrapes);
 // app.get('/tracks/:id', passportConf.isAuthenticated, scrapeController.getScrape);
 app.post('/scrapes', passportConf.isAuthenticated, scrapeController.postScrape);
