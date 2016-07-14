@@ -24,6 +24,9 @@ const helmet = require('helmet');
 const jwt = require('jsonwebtoken'); 
 const safe = require('safe-regex');
 
+const redis = require('redis');
+const expressLimiter = require('express-limiter');
+
 // load the environment variables
 dotenv.load();
 
@@ -62,7 +65,7 @@ app.use(sass({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
-app.use(logger('dev'));
+app.use(logger('dev')); // disable for production
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -85,6 +88,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(function(req, res, next){
+  // prevent regular expression attack
   if (!safe(req.body.email)) {req.body.email = undefined;}
   if (!safe(req.body.password)) {req.body.password = undefined;}
   next();
@@ -111,6 +115,29 @@ app.use(lusca.xssProtection(true));
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 app.use(helmet());
+
+// rate limiting
+// command to launch redis -> redis-server /usr/local/etc/redis.conf
+var client = redis.createClient();
+var limiter = expressLimiter(app,client);
+
+// limit attempts to login, to prevent brute force login
+limiter({
+  path: '/login',
+  method: 'post',
+  lookup: 'connection.remoteAddress',
+  total: 150,
+  expire: 1000 * 60 * 60
+});
+
+//
+limiter({
+  path: '*',
+  method: 'all', 
+  lookup: 'connection.remoteAddress',
+  total: 5000,
+  expire: 1000 * 60 * 30
+});
 
 // routing
 app.get('/', homeController.index);
@@ -140,7 +167,6 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
-
 
 // error handling
 app.use(errorHandler());
