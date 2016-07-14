@@ -90,9 +90,10 @@ exports.postScrape = function(req, res) {
   console.log('posting');
   res.send({ success: true });
   req.body.forEach(function(selection) {
+    req.sanitize(selection.selector.name).escape() // check to make protect against malicious injection
     var scrape = new Scrape({
       _userId: req.user.id,
-      name: selection.selector.name.toString(),
+      name: selection.selector.name,
       url: selection.url,
       selector: selection.selector.path,
       data: cleanNumberData(selection.selector.content),
