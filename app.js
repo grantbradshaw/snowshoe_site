@@ -18,7 +18,6 @@ const expressValidator = require('express-validator');
 const flash = require('express-flash');
 const passport = require('passport');
 const customValidators = require('./config/custom_validators');
-// const cors = require('cors');
 const lusca = require('lusca');
 const helmet = require('helmet');
 const jwt = require('jsonwebtoken'); 

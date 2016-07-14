@@ -6,7 +6,7 @@ const Scrape = require('../models/Scrape');
 exports.getHowTo = function(req, res) {
   if (req.user) { 
     var sale = false;
-    Scrape.findOne({selector: '#dev-snowshoe-price', _userId: req.user.id}, function(err, scrape) {
+    Scrape.findOne({selector: '#dev-snowshoe-price', _userId: {$in: [req.user.id]}}, function(err, scrape) {
       if (err) console.error(err);
       if (scrape) sale = true;
     })

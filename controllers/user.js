@@ -90,7 +90,7 @@ exports.postSignup = function(req, res, next) {
     }
   });
 
-  User.findOne({ email: req.body.email }, function(err, existingUser) {
+  User.findOne({ email: {$in: [req.body.email] }}, function(err, existingUser) {
     if (existingUser) {
       req.flash('errors', { msg: 'Account with that email address already exists.' });
       return res.redirect('/signup');
@@ -185,7 +185,7 @@ exports.postUpdatePassword = function(req, res, next) {
  * Delete user account.
  */
 exports.postDeleteAccount = function(req, res, next) {
-  User.findOne({ _id: req.user.id }, function(err, user) {
+  User.findOne({ _id: {$in: [req.user.id] }}, function(err, user) {
     if (err) return next(err);
     user.remove();
     req.logout();

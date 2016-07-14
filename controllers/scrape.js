@@ -3,7 +3,6 @@
 const Scrape = require('../models/Scrape');
 const User = require('../models/User');
 const prettyDate = require('pretty-date');
-// const scrapePages = require('../helpers/scrape_pages');
 const cleanNumberData = require('../helpers/clean_number_data');
 const job_scrape = require('../jobs/scrape');
 const agenda = require('../config/agenda');
@@ -30,7 +29,7 @@ function prettyTrackStatus(scrape) {
 }
 
 function addScrapeToUser(id, scrape) {
-  User.update({ _id: id },
+  User.update({ _id: {$in: [id] }},
   { $push: { scrapeIds: scrape.id }},
   function(err) {
     if (err) {
@@ -40,7 +39,7 @@ function addScrapeToUser(id, scrape) {
 }
 
 exports.getScrapes = function(req, res) {
-  Scrape.find({_userId: req.user.id}, function(err, scrapes) {
+  Scrape.find({_userId: {$in: [req.user.id]}}, function(err, scrapes) {
     res.render('scrapes', {
       title: 'My scrapes',
       scrapes: scrapes,
@@ -126,7 +125,7 @@ exports.postScrape = function(req, res) {
 };
 
 exports.deleteScrape = function(req, res) {
-  Scrape.findOne({ _id: req.params.scrapeId }, function(err, scrape) {
+  Scrape.findOne({ _id: {$in: [req.params.scrapeId] }}, function(err, scrape) {
     if (err) return console.error(err);
     scrape.remove();
     res.send({ success: true });
@@ -134,7 +133,7 @@ exports.deleteScrape = function(req, res) {
 };
 
 exports.editScrape = function(req, res) {
-  Scrape.findOne({ _id: req.params.scrapeId }, function(err, scrape) {
+  Scrape.findOne({ _id: {$in: [req.params.scrapeId] }}, function(err, scrape) {
     if (err) return console.error(err);
 
     req.assert('comparator', 'Comparator must be a number').isNumeric();
